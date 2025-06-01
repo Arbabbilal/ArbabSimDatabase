@@ -210,20 +210,22 @@
       const result = await response.json();
       const apiData = JSON.parse(result.contents);
 
-      if (apiData.status === "success" && apiData.data.length > 0) {
-        let formattedData = '';
-        
-        apiData.data.forEach(user => {
-          formattedData += `
-            <div class="formatted-data">
-              <p><strong>🔹 Name:</strong> ${user.Name || "N/A"}</p>
-              <p><strong>🔹 Mobile:</strong> ${user.Mobile || "N/A"}</p>
-              <p><strong>🔹 CNIC:</strong> ${user.CNIC || "N/A"}</p>
-              <p><strong>🔹 Operator:</strong> ${user.Operator || "N/A"}</p>
-              <p><strong>🔹 Address:</strong> ${user.Address || "N/A"}</p>
-            </div>
-            <div class="separator"></div>
-          `;
+      let apiData;
+try {
+  apiData = JSON.parse(result.contents);
+} catch (e) {
+  responseBox.innerHTML = `<div class="error">❌ Invalid response from API</div>`;
+  return;
+  }
+        let formattedData += `
+  <div class="formatted-data">
+    <p><strong>🔹 Name:</strong> ${user.name || "N/A"}</p>
+    <p><strong>🔹 Mobile:</strong> ${user.mobile || "N/A"}</p>
+    <p><strong>🔹 CNIC:</strong> ${user.cnic || "N/A"}</p>
+    <p><strong>🔹 Address:</strong> ${user.address || "N/A"}</p>
+  </div>
+  <div class="separator"></div>
+`;
         });
 
         responseBox.innerHTML = formattedData;
